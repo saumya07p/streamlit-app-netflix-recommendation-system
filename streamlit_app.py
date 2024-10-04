@@ -4,5 +4,3 @@ import math
 from pathlib import Path
 
 st.title("Netflix Recommendation System")
-st.write("A")
-
