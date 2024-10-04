@@ -1,8 +1,4 @@
-# :earth_americas: GDP dashboard template
-
-A simple Streamlit app showing the GDP of different countries in the world.
-
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://gdp-dashboard-template.streamlit.app/)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://refactored-space-potato-r5w7767qjgq2pxq5-8501.app.github.dev/)
 
 ### How to run it on your own machine
 
