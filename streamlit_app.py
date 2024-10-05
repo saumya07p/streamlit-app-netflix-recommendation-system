@@ -7,7 +7,7 @@ import json
 
 
 st.title("Netflix Recommendation System")
-st.title("Load Google Sheet as CSV")
+st.title("Google Sheets Data Dashboard")
 
 # Google Sheets published CSV URL
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR88GrAY-eMPSXwVXOwoEABuu2z7D2cRGA58tfZLvCkbskX8zVzpmRQnuK2z5PHL7H9zJ2n4VK7fE4w/pub?gid=2145904198&single=true&output=csv"  # Replace with your URL
