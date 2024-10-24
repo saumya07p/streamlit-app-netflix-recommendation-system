@@ -8,7 +8,6 @@ import json
 
 st.title("Netflix Recommendation System")
 st.text('You are my sunshine')
-from google.colab import drive
 import json
 
 drive.mount('/content/drive')
