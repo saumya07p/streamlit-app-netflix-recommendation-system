@@ -1,2 +1,4 @@
 streamlit
 plotly
+gspread
+oauth2client
