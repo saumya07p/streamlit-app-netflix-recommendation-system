@@ -4,8 +4,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 
-st.title("Netflix Recommendation System")
-st.text('You are my sunshine')
+st.title("Netflix Recommendation System Dashboard")
 
 def load_credentials():
     return st.secrets["GOOGLE_SHEETS_CREDS"]
