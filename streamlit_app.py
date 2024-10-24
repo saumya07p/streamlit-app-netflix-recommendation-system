@@ -5,15 +5,10 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import json
+import os
 
 st.title("Netflix Recommendation System")
 st.text('You are my sunshine')
-import streamlit as st
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import pandas as pd
-import json
-import os
 
 # Function to load credentials from Streamlit secrets
 def load_credentials():
