@@ -1,19 +1,15 @@
 import streamlit as st
 import plotly.express as px
-import plotly.graph_objects as go
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
-import json
-import os
 
 st.title("Netflix Recommendation System")
 st.text('You are my sunshine')
 
 # Function to load credentials from Streamlit secrets
 def load_credentials():
-    creds_json = st.secrets["GOOGLE_SHEETS_CREDS"]
-    return json.loads(creds_json)
+    return st.secrets["GOOGLE_SHEETS_CREDS"]
 
 # Function to authorize and connect to Google Sheets
 def connect_to_google_sheets(user_data):
@@ -23,7 +19,7 @@ def connect_to_google_sheets(user_data):
     # Load credentials from Streamlit secrets
     creds_dict = load_credentials()
 
-    # Create credentials object
+    # Create credentials object directly
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 
     # Authorize client
@@ -59,7 +55,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 fig = px.bar(x=['A', 'B', 'C'], y=[10, 20, 30], title="Simple Bar Chart")
 st.plotly_chart(fig)
