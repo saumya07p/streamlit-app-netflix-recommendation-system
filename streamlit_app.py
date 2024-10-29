@@ -17,7 +17,7 @@ def connect_to_google_sheets(user_data):
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
     client = gspread.authorize(creds)
     sheet = client.open(user_data).sheet1
-
+    
     return sheet
 
 def load_data(sheet):
