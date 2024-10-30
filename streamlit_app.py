@@ -3,6 +3,7 @@ import plotly.express as px
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
+import matplotlib as plt
 
 st.title("Netflix Recommendation System Dashboard")
 
@@ -37,8 +38,9 @@ def main():
     st.write(f"Number of Rows: {num_rows}")
     st.write(f"Number of Columns: {num_cols}")
 
-    fig = px.bar(df, x='column_name_x', y='column_name_y', title="Sample Bar Chart")
-    st.plotly_chart(fig)
+    device_usage = px.bar(df, x = 'Which mode do you prefer to watch movies?')
+    device_usage.update_layout(xaxis_title='Device', yaxis_title='Count')
+    st.pyplot(device_usage)
 
 if __name__ == "__main__":
     main()

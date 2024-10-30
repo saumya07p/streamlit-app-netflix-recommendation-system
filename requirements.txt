@@ -3,3 +3,4 @@ plotly
 gspread
 oauth2client
 pandas
+matplotlib
