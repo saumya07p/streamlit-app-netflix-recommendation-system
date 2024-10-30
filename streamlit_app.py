@@ -3,7 +3,6 @@ import plotly.express as px
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
-import matplotlib as plt
 
 st.title("Netflix Recommendation System Dashboard")
 
@@ -40,7 +39,18 @@ def main():
 
     device_usage = px.bar(df, x = 'Which mode do you prefer to watch movies?')
     device_usage.update_layout(xaxis_title='Device', yaxis_title='Count')
-    st.pyplot(device_usage)
+    st.plotly_chart(device_usage)
+    
+    fig = px.box(df,
+             x='What is your age group?',
+             y='How satisfied are you with the recommendations you receive from streaming platforms?',
+             title='Satisfaction Across Age Groups',
+             color='What is your age group?',
+             color_discrete_sequence=px.colors.qualitative.Set2)
+
+    fig.update_layout(xaxis_title='Age Group', yaxis_title='Satisfaction Level')
+    st.plotly_chart(fig)
 
 if __name__ == "__main__":
     main()
+
