@@ -27,20 +27,18 @@ def load_data(sheet):
 def main():
     st.title("Google Sheets Data Viewer")
     SHEET_NAME = "user_data"
-    
-    try:
-        sheet = connect_to_google_sheets(SHEET_NAME)
-        df = load_data(sheet)
+    sheet = connect_to_google_sheets(SHEET_NAME)
+    df = load_data(sheet)
         
-        st.write("Data from Google Sheets:")
-        st.dataframe(df)
+    st.write("Data from Google Sheets:")
+    st.dataframe(df)
 
-        num_rows, num_cols = df.shape
-        st.write(f"Number of Rows: {num_rows}")
-        st.write(f"Number of Columns: {num_cols}")
+    num_rows, num_cols = df.shape
+    st.write(f"Number of Rows: {num_rows}")
+    st.write(f"Number of Columns: {num_cols}")
 
-    except Exception as e:
-        st.error(f"Error connecting to Google Sheets: {e}")
+    fig = px.bar(df, x='column_name_x', y='column_name_y', title="Sample Bar Chart")
+    st.plotly_chart(fig)
 
 if __name__ == "__main__":
     main()
