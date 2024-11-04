@@ -4,8 +4,12 @@ import plotly.express as px
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+st.set_page_config(page_title="Netflix Recommendation System Dashboard", page_icon="🙏🏻")
+
 st.title("Netflix Recommendation System Dashboard")
-st.sidebar.markdown("[Page1](pages/page1.py)")
+
+st.sidebar.title("Navigation")
+st.sidebar.markdown("[Page 1](pages/page1.py)")
 
 def load_credentials():
     return st.secrets["GOOGLE_SHEETS_CREDS"]
