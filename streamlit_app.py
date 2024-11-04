@@ -51,7 +51,6 @@ def main():
     fig.update_layout(xaxis_title='Age Group', yaxis_title='Satisfaction Level')
     st.plotly_chart(fig)
     
-
     fig = px.bar(df, x='What is your age group?',
              title='Distribution of Age Groups',
              color_discrete_sequence=px.colors.qualitative.Set2)
