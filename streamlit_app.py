@@ -26,12 +26,16 @@ def load_data(sheet):
     return pd.DataFrame(data)
 
 def main():
-    st.title("Google Sheets Data Viewer")
     SHEET_NAME = "user_data"
     sheet = connect_to_google_sheets(SHEET_NAME)
     df = load_data(sheet)
-    df.drop(['Timestamp'], axis = 1)
     st.write("Data from Google Sheets:")
+    
+    if 'Timestamp' in df.columns:
+        df = df.drop('Timestamp', axis=1)
+
+    df.reset_index(drop=True, inplace=True)
+       
     st.dataframe(df)
 
 if __name__ == "__main__":
