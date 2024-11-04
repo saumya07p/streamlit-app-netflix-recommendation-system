@@ -5,6 +5,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 st.title("Netflix Recommendation System Dashboard")
+st.sidebar.markdown("[Page1](pages/page1.py)")
 
 def load_credentials():
     return st.secrets["GOOGLE_SHEETS_CREDS"]
