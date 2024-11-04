@@ -32,7 +32,7 @@ def main():
         
     st.write("Data from Google Sheets:")
     st.dataframe(df)
-
+     
     num_rows, num_cols = df.shape
     st.write(f"Number of Rows: {num_rows}")
     st.write(f"Number of Columns: {num_cols}")
