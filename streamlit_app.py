@@ -37,6 +37,16 @@ def main():
     df.reset_index(drop=True, inplace=True)
        
     st.dataframe(df)
+    columns_to_keep = st.multiselect("Select columns to keep:",options=df.columns)
 
+    if columns_to_keep:
+        df_filtered = df[columns_to_keep].copy()
+        df_filtered.reset_index(drop=True, inplace=True)
+
+        st.write("Selected column(s):")
+        st.write(df_filtered)
+    else:
+        st.write("No columns selected.")
+        
 if __name__ == "__main__":
     main()
