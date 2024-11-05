@@ -52,6 +52,7 @@ def main():
         df, 
         x='Preferred Mode',
         title = 'Count of Preferred Watching mode',
+        color = 'Preferred Mode',
         color_discrete_sequence=px.colors.qualitative.Set2)
     
     fig1.update_layout(
@@ -111,6 +112,7 @@ def main():
                    x='Satisfaction Level',
                    nbins=4,
                    title='Satisfaction with Streaming Recommendations',
+                   color = 'Satisfaction Level',
                    color_discrete_sequence=px.colors.qualitative.Set2)
 
     fig5.update_layout(xaxis_title='Satisfaction Level',
