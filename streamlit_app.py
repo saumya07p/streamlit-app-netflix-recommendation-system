@@ -4,8 +4,7 @@ import plotly.express as px
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-
-st.title("Google Dataset preview")
+st.title("User collected responses: Google Data preview")
 
 def load_credentials():
     return st.secrets["GOOGLE_SHEETS_CREDS"]
