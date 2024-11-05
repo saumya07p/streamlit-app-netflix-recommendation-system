@@ -38,14 +38,14 @@ def main():
                        'Which mode do you prefer to watch movies?': 'Preferred Mode',
                        'Which one of the following genres do you prefer to watch? (Select your top most favorite)': 'Favorite Genre',
                        'Which of the following do you use most frequently to choose a streaming platform?': 'Platform Choice Factor',
-                       'On which devices do you primarily watch content?': 'Primary Device',
-                       'How often do you watch or consume content from streaming platforms?': 'Watch Frequency',
-                       'Are you satisfied with the recommendations you receive from streaming platforms?': 'Recommendation Satisfaction',
+                       'On which devices do you primarily watch content?': 'Primary Device(to watch content)',
+                       'How often do you watch or consume content from streaming platforms?': 'Watch Frequency',                 
                         'How satisfied are you with the recommendations you receive from streaming platforms?': 'Satisfaction Level',
+                        'Are you satisfied with the recommendations you receive from streaming platforms?': 'Recommendation Satisfaction',
                         'What prevents you from using Netflix?': 'Netflix Barrier',
                         'How long do you spend each day watching content on streaming services?': 'Daily Watch Time',
                         'Does high subscription rate of one platform, forces you to switch to another platform?': 'Switching Due to Cost',
-                        'Kindly give your preference':'Duration preference'},inplace=True)
+                        'Kindly give your preference':'Duration preference (season/hr wise)'},inplace=True)
     
     df.reset_index(drop=True, inplace=True)
        
