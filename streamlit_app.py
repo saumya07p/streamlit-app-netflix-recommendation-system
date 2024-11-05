@@ -37,6 +37,7 @@ def main():
     df.reset_index(drop=True, inplace=True)
        
     st.dataframe(df)
+    
     columns_to_keep = st.multiselect("Select columns to keep:",options=df.columns)
 
     if columns_to_keep:
