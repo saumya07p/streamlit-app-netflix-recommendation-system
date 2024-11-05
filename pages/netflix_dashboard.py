@@ -45,6 +45,10 @@ def main():
                         'How long do you spend each day watching content on streaming services?': 'Daily Watch Time',
                         'Does high subscription rate of one platform, forces you to switch to another platform?': 'Switching Due to Cost',
                         'Kindly give your preference':'Duration preference (season/hr wise)'},inplace=True)
+    
+    column_values = df['Preferred Mode']
+    column_values_list = df['Preferred Mode'].tolist()
+    df['Preferred Mode'] = df['Preferred Mode'].str.split(' - ').str[0]
 
     col1, col2 = st.columns((10,10))
 
@@ -58,7 +62,6 @@ def main():
     fig1.update_layout(
         xaxis_title='Preferred Watching Mode',
         yaxis_title='Count',
-        xaxis_tickangle=20,
         title = {
             "text": 'Count of Preferred Watching mode',
             "x": 0.1,
@@ -112,7 +115,7 @@ def main():
                    x='Satisfaction Level',
                    nbins=4,
                    title='Satisfaction with Streaming Recommendations',
-                   color = 'Satisfaction Level',
+                #    color = 'Satisfaction Level',
                    color_discrete_sequence=px.colors.qualitative.Set2)
 
     fig5.update_layout(xaxis_title='Satisfaction Level',
