@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import plotly.graph_objects as go
 
 def load_credentials():
         return st.secrets["GOOGLE_SHEETS_CREDS"]
@@ -24,7 +25,6 @@ def load_data(sheet):
 st.set_page_config(layout='wide')
 ott=st.sidebar.selectbox('OTT Platform',['Home','Dashboard','Model1','Model2'])
 
-
 def home():
 
     st.markdown("<h1 style='text-align: center;'>User collected responses: Google Data preview</h1>", unsafe_allow_html=True)
@@ -32,7 +32,7 @@ def home():
     sheet = connect_to_google_sheets(SHEET_NAME)
     df = load_data(sheet)
     st.write("Data from Google Sheets:")
-        
+
     if 'Timestamp' in df.columns:
         df = df.drop('Timestamp', axis=1)
 
@@ -70,10 +70,34 @@ def dashboard():
     sheet = connect_to_google_sheets(SHEET_NAME)
     df = load_data(sheet)
 
+    SHEET_NAME1 = "Netflix"
+    sheet1 = connect_to_google_sheets(SHEET_NAME1)
+    subs = load_data(sheet1)
+
     st.markdown("<h1 style='text-align: center;'>Netflix Recommendation System Dashboard</h1>", unsafe_allow_html=True)
    
     if 'Timestamp' in df.columns:
         df = df.drop('Timestamp', axis=1)
+
+    st.info('HELLO')
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(
+        x=subs['Year'],
+        y=subs['Subscriptions'],
+        mode='lines+markers',
+        name='Subscription'
+    ))
+
+    fig.add_hline(y=167.09, line_dash="dash", line_color="grey", annotation_text="COVID19 Start Year")
+    fig.add_hline(y=221.84, line_dash="dash", line_color="grey", annotation_text="COVID19 End Year")
+
+    fig.update_layout(
+        title="Subscription Over Years",
+        xaxis_title="Year",
+        yaxis_title="Subscription")
+
+    st.plotly_chart(fig)
 
     df.rename(columns={'What is your age group?':'Age group',
                        'Which mode do you prefer to watch movies?': 'Preferred Mode',
@@ -170,7 +194,24 @@ def dashboard():
         'yanchor': 'top'})
     col1.plotly_chart(fig5)
 
+def model1():
+
+    SHEET_NAME = "user_data"
+    sheet = connect_to_google_sheets(SHEET_NAME)
+    df = load_data(sheet)
+   
+    if 'Timestamp' in df.columns:
+        df = df.drop('Timestamp', axis=1)
+
+    st.markdown("<h1 style='text-align: center;'>Netflix Recommendation System Dashboard</h1>", unsafe_allow_html=True)
+
+    genre_options = df['Which one of the following genres do you prefer to watch? (Select your top most favorite)'].unique()
+
+    st.selectbox('Select your Preferred Genre',genre_options)
+    
 if ott=='Home':
     home()
 elif ott=='Dashboard':
      dashboard()
+elif ott == 'Model1':
+    model1()
