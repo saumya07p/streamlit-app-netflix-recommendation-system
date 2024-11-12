@@ -129,6 +129,41 @@ def dashboard():
     )
     col1.plotly_chart(fig6)
 
+    platform_preference = df['Platform Choice Factor'].value_counts()
+
+    platform_df = platform_preference.reset_index()
+    platform_df.columns = ['Platform', 'Count']
+
+    platform_df = platform_df.sample(frac=1).reset_index(drop=True)
+
+    fig7 = px.scatter(platform_df,
+                    x="Platform", 
+                    y="Count",
+                    size="Count",  # Size of bubbles proportional to the count
+                    color="Count",  # Color based on the count (intensity)
+                    hover_name="Platform",  # Tooltip shows the platform name
+                    title="Platform Preference Bubble Chart",
+                    labels={"Platform": "Platform", "Count": "Count of Responses"},
+                    size_max=70)
+    
+    fig7.update_layout(
+        width=600
+    )
+
+    col2.plotly_chart(fig7)
+
+    genre_count=df['Platform Choice Factor'].value_counts()
+    fig8 = px.histogram(df, 
+                    x="Favorite Genre",  # Genre on x-axis
+                    color="Gender",  # Color legend based on Gender
+                    category_orders={"Favorite Genre": df['Favorite Genre'].unique()},  # Optional to keep genre order
+                    title="Genre Preferences by Gender", 
+                    labels={"Favorite Genre": "Genre Preference", "count": "Count of Users"},
+                    barmode="stack"
+                    )
+
+    st.plotly_chart(fig8)
+
     fig1 = px.bar(
         df, 
         x='Preferred Mode',
@@ -160,20 +195,6 @@ def dashboard():
                            'x': 0.3
                        })
     col2.plotly_chart(fig2)
-    
-    fig3 = px.bar(df, x='Age group',
-              title='Distribution of Age Groups',
-              color = 'Age group',
-              color_discrete_sequence=px.colors.qualitative.Set2)
-
-    fig3.update_layout(xaxis_title="Age Group",
-                  yaxis_title="Count",
-                  #xaxis_tickangle=-45,
-                  title = {
-                           "text": "Satisfaction across Age Groups",
-                           'x': 0.3
-                       })
-    col1.plotly_chart(fig3)
 
     fig4 = px.bar(df, x = 'Favorite Genre',title = 'Genre Count', color = 'Favorite Genre', color_discrete_sequence=px.colors.qualitative.Set2)
     fig4.update_layout(
@@ -204,6 +225,33 @@ def dashboard():
         'xanchor': 'center',
         'yanchor': 'top'})
     col1.plotly_chart(fig5)
+
+    movie_loc1 = df['Switching Due to Cost'].value_counts()
+    fig9 = go.Figure(data=[go.Bar(
+        x=movie_loc1.index,
+        y=movie_loc1.values,
+        marker_color=['#1f77b4', '#ff7f0e']
+    )])
+
+    fig9.update_layout(
+        title="Preferred Modes of Watching Movies",
+        xaxis_title="Mode",
+        yaxis_title="Count",
+        xaxis_tickangle=-45
+    )
+
+    st.plotly_chart(fig9)
+
+    col3, col4 = st.columns((10,10))
+
+    ratings=df['Daily Watch Time'].value_counts()
+    ratings_df = pd.DataFrame(ratings).reset_index()
+    ratings_df.columns = ['Watch Hours', 'Count']
+    col3.dataframe(ratings_df)
+
+    pair_counts = df.groupby(['Watch Frequency', 'Daily Watch Time']).size().reset_index(name='count')
+    pair_counts.sort_values(by='count',ascending=False).head(3)
+    col4.dataframe(pair_counts)
 
 def model1():
 
