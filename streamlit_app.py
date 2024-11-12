@@ -27,8 +27,7 @@ ott=st.sidebar.selectbox('OTT Platform',['Home','Dashboard','Model1','Model2'])
 
 def home():
 
-    st.title("User collected responses: Google Data preview")
-
+    st.markdown("<h1 style='text-align: center;'>User collected responses: Google Data preview</h1>", unsafe_allow_html=True)
     SHEET_NAME = "user_data"
     sheet = connect_to_google_sheets(SHEET_NAME)
     df = load_data(sheet)
@@ -71,8 +70,7 @@ def dashboard():
     sheet = connect_to_google_sheets(SHEET_NAME)
     df = load_data(sheet)
 
-    st.title("Netflix Recommendation System Dashboard")
-    st.write("This page shows specific insights related to user preference.")
+    st.markdown("<h1 style='text-align: center;'>Netflix Recommendation System Dashboard</h1>", unsafe_allow_html=True)
    
     if 'Timestamp' in df.columns:
         df = df.drop('Timestamp', axis=1)
@@ -135,7 +133,7 @@ def dashboard():
 
     fig3.update_layout(xaxis_title="Age Group",
                   yaxis_title="Count",
-                  xaxis_tickangle=-45,
+                  #xaxis_tickangle=-45,
                   title = {
                            "text": "Satisfaction across Age Groups",
                            'x': 0.3
