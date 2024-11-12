@@ -51,7 +51,7 @@ def main():
     df['Preferred Mode'] = df['Preferred Mode'].str.split(' - ').str[0]
 
     col1, col2 = st.columns((10,10))
-
+    
     fig1 = px.bar(
         df, 
         x='Preferred Mode',
