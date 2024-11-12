@@ -115,19 +115,19 @@ def dashboard():
     col1, col2 = st.columns((10,10))
 
     movie_loc = df['Preferred Mode'].value_counts()
-    fig6 = go.Figure(data=[go.Bar(
+    fig1 = go.Figure(data=[go.Bar(
         x=movie_loc.index,
         y=movie_loc.values,
         marker_color=['#1f77b4', '#ff7f0e'] 
     )])
 
-    fig6.update_layout(
+    fig1.update_layout(
         title="Preferred Modes of Watching Movies",
         xaxis_title="Mode",
         yaxis_title="Count",
         # xaxis_tickangle=-45
     )
-    col1.plotly_chart(fig6)
+    col1.plotly_chart(fig1)
 
     platform_preference = df['Platform Choice Factor'].value_counts()
 
@@ -136,7 +136,7 @@ def dashboard():
 
     platform_df = platform_df.sample(frac=1).reset_index(drop=True)
 
-    fig7 = px.scatter(platform_df,
+    fig2 = px.scatter(platform_df,
                     x="Platform", 
                     y="Count",
                     size="Count",  # Size of bubbles proportional to the count
@@ -146,14 +146,14 @@ def dashboard():
                     labels={"Platform": "Platform", "Count": "Count of Responses"},
                     size_max=70)
     
-    fig7.update_layout(
+    fig2.update_layout(
         width=600
     )
 
-    col2.plotly_chart(fig7)
+    col2.plotly_chart(fig2)
 
     genre_count=df['Platform Choice Factor'].value_counts()
-    fig8 = px.histogram(df, 
+    fig3 = px.histogram(df, 
                     x="Favorite Genre",  # Genre on x-axis
                     color="Gender",  # Color legend based on Gender
                     category_orders={"Favorite Genre": df['Favorite Genre'].unique()},  # Optional to keep genre order
@@ -162,42 +162,10 @@ def dashboard():
                     barmode="stack"
                     )
 
-    st.plotly_chart(fig8)
+    st.plotly_chart(fig3)
 
-    fig1 = px.bar(
-        df, 
-        x='Preferred Mode',
-        title = 'Preferred Watching mode',
-        # color = 'Preferred Mode',
-        color_discrete_sequence=px.colors.qualitative.Set2)
-    
-    fig1.update_layout(
-        xaxis_title='Preferred Watching Mode',
-        yaxis_title='Count',
-        title = {
-            "text": 'Preferred Watching mode',
-            "x": 0.3,
-            'y': 0.9
-        }
-    )
-    col1.plotly_chart(fig1)
-
-    fig2 = px.box(df,
-             x='Age group',
-             y='Watch Frequency',
-             title='Satisfaction Across Age Groups',
-             color='Age group',
-             color_discrete_sequence=px.colors.qualitative.Set2)
-
-    fig2.update_layout(xaxis_title='Age Group', yaxis_title='Satisfaction Level',
-                       title = {
-                           "text": "Satisfaction Across Age Groups",
-                           'x': 0.3
-                       })
-    col2.plotly_chart(fig2)
-
-    fig4 = px.bar(df, x = 'Favorite Genre',title = 'Genre Count', color = 'Favorite Genre', color_discrete_sequence=px.colors.qualitative.Set2)
-    fig4.update_layout(
+    fig = px.bar(df, x = 'Favorite Genre',title = 'Genre Count', color = 'Favorite Genre', color_discrete_sequence=px.colors.qualitative.Set2)
+    fig5.update_layout(
     xaxis_title='Genre',
     yaxis_title='Genre Count',
     title={
@@ -207,16 +175,16 @@ def dashboard():
     'xanchor': 'center',
     'yanchor': 'top'}
    )
-    col2.plotly_chart(fig4)
+    col2.plotly_chart(fig5)
 
-    fig5 = px.histogram(df,
+    fig6 = px.histogram(df,
                    x='Satisfaction Level',
                    nbins=4,
                    title='Satisfaction with Streaming Recommendations',
                 #    color = 'Satisfaction Level',
                    color_discrete_sequence=px.colors.qualitative.Set2)
 
-    fig5.update_layout(xaxis_title='Satisfaction Level',
+    fig6.update_layout(xaxis_title='Satisfaction Level',
                   yaxis_title='Count',
                    title={
         'text': 'Satisfaction with Streaming Recommendations',
@@ -224,23 +192,23 @@ def dashboard():
         'x': 0.5,
         'xanchor': 'center',
         'yanchor': 'top'})
-    col1.plotly_chart(fig5)
+    col1.plotly_chart(fig6)
 
     movie_loc1 = df['Switching Due to Cost'].value_counts()
-    fig9 = go.Figure(data=[go.Bar(
+    fig7= go.Figure(data=[go.Bar(
         x=movie_loc1.index,
         y=movie_loc1.values,
         marker_color=['#1f77b4', '#ff7f0e']
     )])
 
-    fig9.update_layout(
+    fig7.update_layout(
         title="Preferred Modes of Watching Movies",
         xaxis_title="Mode",
         yaxis_title="Count",
         xaxis_tickangle=-45
     )
 
-    st.plotly_chart(fig9)
+    st.plotly_chart(fig7)
 
     col3, col4 = st.columns((10,10))
 
