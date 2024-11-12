@@ -70,34 +70,30 @@ def dashboard():
     sheet = connect_to_google_sheets(SHEET_NAME)
     df = load_data(sheet)
 
-    SHEET_NAME1 = "Netflix"
-    sheet1 = connect_to_google_sheets(SHEET_NAME1)
-    subs = load_data(sheet1)
-
     st.markdown("<h1 style='text-align: center;'>Netflix Recommendation System Dashboard</h1>", unsafe_allow_html=True)
    
     if 'Timestamp' in df.columns:
         df = df.drop('Timestamp', axis=1)
 
     st.info('HELLO')
-    fig = go.Figure()
+    # fig = go.Figure()
 
-    fig.add_trace(go.Scatter(
-        x=subs['Year'],
-        y=subs['Subscriptions'],
-        mode='lines+markers',
-        name='Subscription'
-    ))
+    # fig.add_trace(go.Scatter(
+    #     x=subs['Year'],
+    #     y=subs['Subscriptions'],
+    #     mode='lines+markers',
+    #     name='Subscription'
+    # ))
 
-    fig.add_hline(y=167.09, line_dash="dash", line_color="grey", annotation_text="COVID19 Start Year")
-    fig.add_hline(y=221.84, line_dash="dash", line_color="grey", annotation_text="COVID19 End Year")
+    # fig.add_hline(y=167.09, line_dash="dash", line_color="grey", annotation_text="COVID19 Start Year")
+    # fig.add_hline(y=221.84, line_dash="dash", line_color="grey", annotation_text="COVID19 End Year")
 
-    fig.update_layout(
-        title="Subscription Over Years",
-        xaxis_title="Year",
-        yaxis_title="Subscription")
+    # fig.update_layout(
+    #     title="Subscription Over Years",
+    #     xaxis_title="Year",
+    #     yaxis_title="Subscription")
 
-    st.plotly_chart(fig)
+    # st.plotly_chart(fig)
 
     df.rename(columns={'What is your age group?':'Age group',
                        'Which mode do you prefer to watch movies?': 'Preferred Mode',
@@ -117,7 +113,22 @@ def dashboard():
     df['Preferred Mode'] = df['Preferred Mode'].str.split(' - ').str[0]
 
     col1, col2 = st.columns((10,10))
-    
+
+    movie_loc = df['Preferred Mode'].value_counts()
+    fig6 = go.Figure(data=[go.Bar(
+        x=movie_loc.index,
+        y=movie_loc.values,
+        marker_color=['#1f77b4', '#ff7f0e'] 
+    )])
+
+    fig6.update_layout(
+        title="Preferred Modes of Watching Movies",
+        xaxis_title="Mode",
+        yaxis_title="Count",
+        # xaxis_tickangle=-45
+    )
+    col1.plotly_chart(fig6)
+
     fig1 = px.bar(
         df, 
         x='Preferred Mode',
@@ -203,7 +214,7 @@ def model1():
     if 'Timestamp' in df.columns:
         df = df.drop('Timestamp', axis=1)
 
-    st.markdown("<h1 style='text-align: center;'>Netflix Recommendation System Dashboard</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>Recommendation Model</h1>", unsafe_allow_html=True)
 
     genre_options = df['Which one of the following genres do you prefer to watch? (Select your top most favorite)'].unique()
 
