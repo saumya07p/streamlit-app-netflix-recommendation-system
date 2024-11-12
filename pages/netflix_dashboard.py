@@ -63,7 +63,7 @@ def main():
         xaxis_title='Preferred Watching Mode',
         yaxis_title='Count',
         title = {
-            "text": 'Count of Preferred Watching mode',
+            "text": 'Preferred Watching mode',
             "x": 0.1,
             'y': 0.9
         }
