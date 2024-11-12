@@ -24,6 +24,7 @@ def load_data(sheet):
 st.set_page_config(layout='wide')
 ott=st.sidebar.selectbox('OTT Platform',['Home','Dashboard','Model1','Model2'])
 
+
 def home():
 
     st.title("User collected responses: Google Data preview")
