@@ -107,7 +107,7 @@ def dashboard():
         yaxis_title='Count',
         title = {
             "text": 'Preferred Watching mode',
-            "x": 0.2,
+            "x": 0.3,
             'y': 0.9
         }
     )
@@ -123,7 +123,7 @@ def dashboard():
     fig2.update_layout(xaxis_title='Age Group', yaxis_title='Satisfaction Level',
                        title = {
                            "text": "Satisfaction Across Age Groups",
-                           'x': 0.2
+                           'x': 0.3
                        })
     col2.plotly_chart(fig2)
     
@@ -137,7 +137,7 @@ def dashboard():
                   xaxis_tickangle=-45,
                   title = {
                            "text": "Satisfaction across Age Groups",
-                           'x': 0.2
+                           'x': 0.3
                        })
     col1.plotly_chart(fig3)
 
@@ -170,7 +170,6 @@ def dashboard():
         'xanchor': 'center',
         'yanchor': 'top'})
     col1.plotly_chart(fig5)
-
 
 if ott=='Home':
     home()
