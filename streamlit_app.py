@@ -22,7 +22,7 @@ def load_data(sheet):
         return pd.DataFrame(data)
 
 st.set_page_config(layout='wide')
-ott=st.sidebar.selectbox('OTT Platform',['Home','Dashboard','recommendation_model1','recommendation_model2'])
+ott=st.sidebar.selectbox('OTT Platform',['Home','Dashboard','Model1','Model2'])
 
 def home():
 
@@ -69,7 +69,7 @@ def dashboard():
     SHEET_NAME = "user_data"
     sheet = connect_to_google_sheets(SHEET_NAME)
     df = load_data(sheet)
-    
+
     st.title("Netflix Recommendation System Dashboard")
     st.write("This page shows specific insights related to user preference.")
    
@@ -107,7 +107,7 @@ def dashboard():
         yaxis_title='Count',
         title = {
             "text": 'Preferred Watching mode',
-            "x": 0.1,
+            "x": 0.2,
             'y': 0.9
         }
     )
