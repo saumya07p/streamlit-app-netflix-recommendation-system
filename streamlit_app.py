@@ -75,7 +75,7 @@ def dashboard():
     if 'Timestamp' in df.columns:
         df = df.drop('Timestamp', axis=1)
 
-    st.info('HELLO')
+    # st.info('HELLO')
     # fig = go.Figure()
 
     # fig.add_trace(go.Scatter(
@@ -154,17 +154,18 @@ def dashboard():
 
     genre_count=df['Platform Choice Factor'].value_counts()
     fig3 = px.histogram(df, 
-                    x="Favorite Genre",  # Genre on x-axis
-                    color="Gender",  # Color legend based on Gender
-                    category_orders={"Favorite Genre": df['Favorite Genre'].unique()},  # Optional to keep genre order
+                    x="Favorite Genre",
+                    color="Gender",
+                    category_orders={"Favorite Genre": df['Favorite Genre'].unique()},
                     title="Genre Preferences by Gender", 
                     labels={"Favorite Genre": "Genre Preference", "count": "Count of Users"},
-                    barmode="stack"
+                    barmode="stack",
+                    
                     )
 
     st.plotly_chart(fig3)
 
-    fig = px.bar(df, x = 'Favorite Genre',title = 'Genre Count', color = 'Favorite Genre', color_discrete_sequence=px.colors.qualitative.Set2)
+    fig5 = px.bar(df, x = 'Favorite Genre',title = 'Genre Count', color = 'Favorite Genre', color_discrete_sequence=px.colors.qualitative.Set2)
     fig5.update_layout(
     xaxis_title='Genre',
     yaxis_title='Genre Count',
