@@ -23,6 +23,9 @@ def load_data(sheet):
         return pd.DataFrame(data)
 
 st.set_page_config(layout='wide')
+
+st.sidebar.image('https://i.ytimg.com/vi/gbbaX6WzBFg/maxresdefault.jpg')
+
 ott=st.sidebar.selectbox('OTT Platform',['Home','Dashboard','Model1','Model2'])
 
 def home():
@@ -139,9 +142,9 @@ def dashboard():
     fig2 = px.scatter(platform_df,
                     x="Platform", 
                     y="Count",
-                    size="Count",  # Size of bubbles proportional to the count
-                    color="Count",  # Color based on the count (intensity)
-                    hover_name="Platform",  # Tooltip shows the platform name
+                    size="Count",
+                    color="Count",
+                    hover_name="Platform",
                     title="Platform Preference Bubble Chart",
                     labels={"Platform": "Platform", "Count": "Count of Responses"},
                     size_max=70)
@@ -169,6 +172,7 @@ def dashboard():
     fig5.update_layout(
     xaxis_title='Genre',
     yaxis_title='Genre Count',
+    xaxis_tickangle=90,
     title={
     'text': 'User preferred Genres',
     'y': 0.9,
@@ -182,7 +186,6 @@ def dashboard():
                    x='Satisfaction Level',
                    nbins=4,
                    title='Satisfaction with Streaming Recommendations',
-                #    color = 'Satisfaction Level',
                    color_discrete_sequence=px.colors.qualitative.Set2)
 
     fig6.update_layout(xaxis_title='Satisfaction Level',
