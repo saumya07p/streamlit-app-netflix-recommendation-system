@@ -4,6 +4,8 @@ import plotly.express as px
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import plotly.graph_objects as go
+import requests
+from io import BytesIO
 
 def load_credentials():
         return st.secrets["GOOGLE_SHEETS_CREDS"]
@@ -78,15 +80,24 @@ def dashboard():
     if 'Timestamp' in df.columns:
         df = df.drop('Timestamp', axis=1)
 
-    # st.info('HELLO')
-    # fig = go.Figure()
+    subs = '1IigjkaGJeY_Dr1I1-mfDRyzIlDImw2rt'
 
-    # fig.add_trace(go.Scatter(
-    #     x=subs['Year'],
-    #     y=subs['Subscriptions'],
-    #     mode='lines+markers',
-    #     name='Subscription'
-    # ))
+    def load_excel(file_id):
+        subs = f'https://docs.google.com/spreadsheets/d/1IigjkaGJeY_Dr1I1-mfDRyzIlDImw2rt/edit?usp=drive_link&ouid=110523202770426482106&rtpof=true&sd=true'
+        response = requests.get(subs)
+        return pd.read_excel(BytesIO(response.content)) if response.status_code == 200 else None
+
+    st.title("Read Excel File from Google Drive")
+    data = load_excel(subs)
+    st.info('HELLO')
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(
+        x=subs['Year'],
+        y=subs['Subscriptions'],
+        mode='lines+markers',
+        name='Subscription'
+    ))
 
     # fig.add_hline(y=167.09, line_dash="dash", line_color="grey", annotation_text="COVID19 Start Year")
     # fig.add_hline(y=221.84, line_dash="dash", line_color="grey", annotation_text="COVID19 End Year")
