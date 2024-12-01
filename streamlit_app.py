@@ -216,8 +216,30 @@ def dashboard():
     }
 
     st.markdown("<br>", unsafe_allow_html=True)
-    
+
     fig5 = px.bar(
+            df,
+            x=df['Netflix Barrier'].value_counts().index,
+            y=df['Netflix Barrier'].value_counts().values,
+            labels={'x': 'Netflix Barrier', 'y': 'Count'},
+            color = df['Netflix Barrier'].value_counts().values,
+            color_continuous_scale='Reds'
+            )
+    
+    fig5.update_layout(
+        title = {
+            'text': 'Factors affecting usage of Netflix',
+            #' y': 0.9,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        xaxis_tickangle=90
+    )
+    col4.plotly_chart(fig5)
+    col4.write('The bar chart shows that the high subscription cost is the most significant factor affecting Netflix usage, followed by the lack of desired shows and movies.')
+
+    fig6 = px.bar(
         df,
         x='Favorite Genre',
         color='Favorite Genre',
@@ -225,14 +247,14 @@ def dashboard():
         color_discrete_map=color_map
     )
 
-    fig5.update_layout(
+    fig6.update_layout(
         xaxis_title='Genre',
         yaxis_title='Count',
         xaxis_tickangle=90,
         title={
             'text': 'User preferred Genres',
             'y': 0.9,
-            'x': 0.5,
+            'x': 0.45,
             'xanchor': 'center',
             'yanchor': 'top'
         },
@@ -241,14 +263,41 @@ def dashboard():
         }
         )
 
-    col4.plotly_chart(fig5)
-    col4.write('Comedy is the most popular movie genre, while Documentary and Drama are the least preferred, showing diverse user preferences.')
+    st.plotly_chart(fig6)
+    st.write('Comedy is the most popular movie genre, while Documentary and Drama are the least preferred, showing diverse user preferences.')
 
-    col5, col6 = st.columns((10,10))
+    abc12=st.radio(label='Radio' ,options=['Age','Gender'])
 
-    # df['Gender'] = df['Gender'].replace('Prefer not to say', 'Others')
-
-    fig6 = px.histogram(
+    if abc12 == "Age":
+        fig7 = px.histogram(
+        df,
+        x="Favorite Genre",
+        color="Age group",
+        category_orders={"Favorite Genre": df['Favorite Genre'].unique()},
+        title="Genre Preferences by Age",
+        labels={"Favorite Genre": "Genre Preference", "Count": "Count of Users"},
+        barmode="stack",
+        color_discrete_map={
+            'Male': '#990000',      # Dark red for Male
+            'Female': '#FF6347'     # Light red for Female
+        }
+    )
+        fig7.update_layout(
+        xaxis_tickangle=90,
+        title={
+            'text': 'Genre Preferences by Age',
+            'y': 0.9,
+            'x': 0.45,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        xaxis={'categoryorder': 'total descending'}
+        )   
+        st.plotly_chart(fig7)
+        st.write('Genre preferences differ by gender, with women favoring Romance, men preferring Action and Sci-Fi, and Comedy being universally liked.')
+        
+    elif abc12 == "Gender":
+        fig7 = px.histogram(
         df,
         x="Favorite Genre",
         color="Gender",
@@ -262,7 +311,7 @@ def dashboard():
         }
     )
 
-    fig6.update_layout(
+    fig7.update_layout(
         xaxis_tickangle=90,
         title={
             'text': 'Genre Preferences by Gender',
@@ -273,33 +322,12 @@ def dashboard():
         },
         xaxis={'categoryorder': 'total descending'}
     )
-    col5.plotly_chart(fig6)
-    col5.write('Genre preferences differ by gender, with women favoring Romance, men preferring Action and Sci-Fi, and Comedy being universally liked.')
+    st.plotly_chart(fig7)
+    st.write('Genre preferences differ by gender, with women favoring Romance, men preferring Action and Sci-Fi, and Comedy being universally liked.')
 
-    movie_loc1 = df['Switching Due to Cost'].value_counts()
-    # df['Netflix Barrier'] = df['Netflix Barrier'].replace()    
 
-    fig7 = px.bar(
-            df,
-            x=df['Netflix Barrier'].value_counts().index,
-            y=df['Netflix Barrier'].value_counts().values,
-            labels={'x': 'Netflix Barrier', 'y': 'Count'},
-            color = df['Netflix Barrier'].value_counts().values,
-            color_continuous_scale='Reds'
-            )
     
-    fig7.update_layout(
-        title = {
-            'text': 'Factors affecting usage of Netflix',
-            #' y': 0.9,
-            'x': 0.5,
-            'xanchor': 'center',
-            'yanchor': 'top'
-        },
-        xaxis_tickangle=90
-    )
-    col6.plotly_chart(fig7)
-    col6.write('The bar chart shows that the high subscription cost is the most significant factor affecting Netflix usage, followed by the lack of desired shows and movies.')
+    movie_loc1 = df['Switching Due to Cost'].value_counts()  
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -313,7 +341,7 @@ def dashboard():
         title={
         'text':"Preferred Modes of Watching Movies",
         'y': 0.9,
-        'x': 0.5,
+        'x': 0.45,
         'xanchor': 'center',
         'yanchor': 'top'},
         xaxis={'categoryorder': 'total descending'}
