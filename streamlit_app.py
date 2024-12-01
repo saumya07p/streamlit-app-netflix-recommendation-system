@@ -138,9 +138,6 @@ def dashboard():
     df['Preferred Mode'] = df['Preferred Mode'].str.split(' - ').str[0]
     df['Platform Choice Factor'] = df['Platform Choice Factor'].str.replace('Other (Please specify)', 'Other')
 
-    st.write("")
-    st.write("")
-
     col1, col2 = st.columns((10,10))
 
     movie_loc = df['Preferred Mode'].value_counts()
@@ -202,6 +199,8 @@ def dashboard():
 
     platform_df = platform_df.sample(frac=1).reset_index(drop=True)
     
+    st.markdown("<br>", unsafe_allow_html=True)
+    
     fig4 = px.scatter(platform_df,
                     x="Platform", 
                     y="Count",
@@ -244,6 +243,8 @@ def dashboard():
     'Drama': '#ff9999'          # Very light red
     }
 
+    st.markdown("<br>", unsafe_allow_html=True)
+    
     fig5 = px.bar(
         df,
         x='Favorite Genre',
@@ -327,6 +328,8 @@ def dashboard():
     )
     col6.plotly_chart(fig7)
     col6.write('The bar chart shows that the high subscription cost is the most significant factor affecting Netflix usage, followed by the lack of desired shows and movies.')
+    
+    st.markdown("<br>", unsafe_allow_html=True)
 
     fig8= go.Figure(data=[go.Bar(
         x=movie_loc1.index,
