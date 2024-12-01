@@ -95,18 +95,24 @@ def dashboard():
         x=data['Year'],
         y=data['Subscriptions'],
         mode='lines+markers',
-        name='Subscription'
+        name='Subscription',
+        line=dict(color='red')
     ))
 
     fig1.add_hline(y=167.09, line_dash="dash", line_color="grey", annotation_text="COVID19 Start Year")
     fig1.add_hline(y=221.84, line_dash="dash", line_color="grey", annotation_text="COVID19 End Year")
-
+    
     fig1.update_layout(
-        title="Subscription Over Years",
         xaxis_title="Year",
-        yaxis_title="Subscription")
+        yaxis_title="Subscription",
+        title = {
+            'text': "Netflix Subscription Over Years",
+            'x' : 0.4
+        }
+        )
 
     st.plotly_chart(fig1)
+    st.write('The graph depicts a clear upward trend in Netflix subscriptions over the years, with a notable acceleration during the COVID-19 pandemic. This suggests that the pandemic significantly boosted Netflix''s popularity as people turned to streaming services for entertainment during lockdowns and social distancing measures.')
 
     df.rename(columns={'What is your age group?':'Age group',
                        'Which mode do you prefer to watch movies?': 'Preferred Mode',
@@ -121,9 +127,8 @@ def dashboard():
                         'Does high subscription rate of one platform, forces you to switch to another platform?': 'Switching Due to Cost',
                         'Kindly give your preference':'Duration preference (season/hr wise)'},inplace=True)
     
-    column_values = df['Preferred Mode']
-    column_values_list = df['Preferred Mode'].tolist()
     df['Preferred Mode'] = df['Preferred Mode'].str.split(' - ').str[0]
+    df['Platform Choice Factor'] = df['Platform Choice Factor'].str.replace('Other (Please specify)', 'Other')
 
     col1, col2 = st.columns((10,10))
 
@@ -131,18 +136,63 @@ def dashboard():
     fig2 = go.Figure(data=[go.Bar(
         x=movie_loc.index,
         y=movie_loc.values,
-        marker_color=['#ff4d4d', '#ff9999'] 
+        marker_color=['#B22222', '#FF6347'] 
     )])
 
     fig2.update_layout(
         xaxis_title="Mode",
         yaxis_title="Count",
         title = {
-        'text':'Preferred Modes of Watching Movies',
+        'text':'Movies Watching Preferences',
         'x': 0.3  
         } 
     )
     col1.plotly_chart(fig2)
+    col1.write('This chart clearly shows a strong preference for watching movies on Over-the-Top (OTT) platforms compared to traditional theatre halls. The significantly taller bar for OTT platforms indicates that a larger number of people choose to stream movies online. This shift towards digital movie consumption highlights the changing preferences of movie audiences and the growing popularity of online streaming services.')
+   
+    # df['Satisfaction Level'] = df['Satisfaction Level'].value_counts().sort_values(ascending=True)
+    # st.write(df['Satisfaction Level'])
+
+    fig3 = px.histogram(df,
+                   x='Satisfaction Level',
+                   color = 'Satisfaction Level',
+                   nbins=6,
+                   color_discrete_sequence=[
+                        "#8B0000",  # Dark red
+                        "#B22222",  # Firebrick
+                        "#DC143C",  # Crimson
+                        "#FF6347",  # Tomato
+                        "#FF9999"   # Light red
+        ]
+    )
+    aggregated_data = df.groupby('Satisfaction Level').size().reset_index(name='Count')
+
+    sorted_data = aggregated_data.sort_values(by='Count', ascending=False)
+
+    fig3 = px.bar(
+        sorted_data,
+        x='Satisfaction Level',
+        y='Count',
+        title='OTT Recommendation system satisfaction rate',
+        labels={'Satisfaction Level': 'Satisfaction Level', 'Count': 'Count'},
+        color='Satisfaction Level',
+        color_continuous_scale='Reds'
+    )
+
+    fig3.update_layout(
+        xaxis=dict(categoryorder='total descending'),
+        title={
+            'y': 0.9,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        }
+    )
+
+    col2.plotly_chart(fig3)
+    col2.write('This chart illustrates how satisfied users are with the recommendations provided by Over-the-Top (OTT) platforms. The graph shows a clear preference for the recommendations, with a peak in satisfaction at level 4. While a smaller number of users express dissatisfaction at level 1 and 2, the majority of users are either satisfied or very satisfied with the recommendations, indicating that OTT platforms are generally doing a good job in suggesting content to their viewers.')
+
+    col3, col4 = st.columns((10,10))
 
     platform_preference = df['Platform Choice Factor'].value_counts()
 
@@ -150,15 +200,15 @@ def dashboard():
     platform_df.columns = ['Platform', 'Count']
 
     platform_df = platform_df.sample(frac=1).reset_index(drop=True)
-
-    fig3 = px.scatter(platform_df,
+    
+    fig4 = px.scatter(platform_df,
                     x="Platform", 
                     y="Count",
                     size="Count",
                     color="Count",
                     hover_name="Platform",
                     title="Platform Preference",
-                    labels={"Platform": "Platform", "Count": "Count of Responses",
+                    labels={"Platform": "Platform", "Count": "Count",
                     },
                     color_continuous_scale=[
                         "#ff9999",  # Light red
@@ -168,118 +218,117 @@ def dashboard():
                     ],
                     size_max=70)
 
-    fig3.update_layout(
+    fig4.update_layout(
         width=600,
         xaxis_tickangle=90,
         title={
-        'text': 'Platform Preference',
+        'text': 'OTT Platform Preference',
         'y': 0.9,
-        'x': 0.4,
+        'x': 0.45,
         'xanchor': 'center',
         'yanchor': 'top'}
     )
+    
+    col3.plotly_chart(fig4)
+    col3.write('This bubble chart shows Netflix as the most popular OTT platform, followed by Amazon Prime Video and Hotstar. Platforms like Hulu, Disney+, and HBO Max have a smaller user base. This suggests Netflix dominates the OTT market, while other platforms cater to specific niches.')
 
-    col2.plotly_chart(fig3)
-
-    fig4 = px.histogram(df, 
-                    x="Favorite Genre",
-                    color="Gender",
-                    category_orders={"Favorite Genre": df['Favorite Genre'].unique()},
-                    title="Genre Preferences by Gender", 
-                    labels={"Favorite Genre": "Genre Preference", "count": "Count of Users"},
-                    barmode="stack",
-                    )
-
-    fig4.update_layout(
-        title={
-        'text': 'Platform Preference',
-        'y': 0.9,
-        'x': 0.5,
-        'xanchor': 'center',
-        'yanchor': 'top'}
-    )
-
-    st.plotly_chart(fig4)
-
-    fig5 = px.bar(df, x = 'Favorite Genre',
-                  title = 'Genre Count', 
-                  color = 'Favorite Genre', 
-                  color_continuous_scale=[
-                    "#660000",  # Very dark red
-                    "#800000",  # Dark red
-                    "#990000",  # Red
-                    "#b30000",  # Medium dark red
-                    "#cc3333",  # Bright red
-                    "#e60000",  # Strong red
-                    "#ff6666",  # Light red
-                    "#ff9999"   # Very light red
-                    ])
-    fig5.update_layout(
-    xaxis_title='Genre',
-    yaxis_title='Genre Count',
-    xaxis_tickangle=90,
-    title={
-    'text': 'User preferred Genres',
-    'y': 0.9,
-    'x': 0.5,
-    'xanchor': 'center',
-    'yanchor': 'top'},
-    xaxis={
-        'categoryorder': 'total descending'
+    color_map = {
+    'Comedy': '#660000',        # Very dark red
+    'Romance': '#800000',       # Dark red
+    'Thriller': '#990000',      # Red
+    'Science Fiction': '#b30000', # Medium dark red
+    'Horror': '#cc3333',        # Bright red
+    'Action': '#e60000',        # Strong red
+    'Documentary': '#ff6666',   # Light red
+    'Drama': '#ff9999'          # Very light red
     }
-   )
-    col2.plotly_chart(fig5)
 
-    df_sorted = df['Satisfaction Level'].value_counts().sort_values(ascending=False)
+    fig5 = px.bar(
+        df,
+        x='Favorite Genre',
+        color='Favorite Genre',
+        title='User preferred Genres',
+        color_discrete_map=color_map
+    )
 
-    fig6 = px.histogram(df,
-                   x='Satisfaction Level',
-                   color = 'Satisfaction Level',
-                   nbins=6,
-                   title='Streaming Recommendations Satisfaction',
-                                color_discrete_sequence=[
-                        "#8B0000",  # Dark red
-                        "#B22222",  # Firebrick
-                        "#DC143C",  # Crimson
-                        "#FF6347",  # Tomato
-                        "#FF9999"   # Light red
-    ]
-)
+    fig5.update_layout(
+        xaxis_title='Genre',
+        yaxis_title='Count',
+        xaxis_tickangle=90,
+        title={
+            'text': 'User preferred Genres',
+            'y': 0.9,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        xaxis={
+            'categoryorder': 'total descending'
+        }
+        )
 
-    fig6.update_layout(xaxis_title='Satisfaction Level',
-                  yaxis_title='Count',
-                   title={
-        'text': 'Satisfaction with Streaming Recommendations',
+    col4.plotly_chart(fig5)
+    col4.write('This chart shows the popularity of different movie genres among users. Comedy is the most preferred genre, followed by Romance and Thriller. Science Fiction and Horror are also quite popular. Documentary and Drama genres are the least preferred among the users. This graph suggests that users have a diverse range of preferences when it comes to movie genres, with a strong preference for action-packed and light-hearted content.')
+
+    col5, col6 = st.columns((10,10))
+
+    # df['Gender'] = df['Gender'].replace('Prefer not to say', 'Others')
+
+    fig6 = px.histogram(
+        df,
+        x="Favorite Genre",
+        color="Gender",
+        category_orders={"Favorite Genre": df['Favorite Genre'].unique()},
+        title="Genre Preferences by Gender",
+        labels={"Favorite Genre": "Genre Preference", "Count": "Count of Users"},
+        barmode="stack",
+        color_discrete_map={
+            'Male': '#990000',      # Dark red for Male
+            'Female': '#FF6347'     # Light red for Female
+        }
+    )
+
+    fig6.update_layout(
+        xaxis_tickangle=90,
+        title={
+            'text': 'Genre Preferences by Gender',
+            'y': 0.9,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        xaxis={'categoryorder': 'total descending'}
+    )
+    col5.plotly_chart(fig6)
+    col5.write('The chart shows genre preferences vary by gender. Comedy is the most popular genre overall. Women prefer Romance more than men, while men favor Action and Sci-Fi. The "Prefer not to say" category aligns more with male preferences. This suggests gender influences genre choices, with comedy being a universal favorite.')
+
+    movie_loc1 = df['Switching Due to Cost'].value_counts()
+
+    fig7= go.Figure(data=[go.Bar(
+        x=movie_loc1.index,
+        y=movie_loc1.values,
+        marker_color=['#990000', '#e60000', '#ff6666']
+    )])
+
+    fig7.update_layout(
+        title={
+        'text':"Preferred Modes of Watching Movies",
         'y': 0.9,
         'x': 0.5,
         'xanchor': 'center',
         'yanchor': 'top'},
         xaxis={'categoryorder': 'total descending'}
-        )
-    col1.plotly_chart(fig6)
-
-    movie_loc1 = df['Switching Due to Cost'].value_counts()
-    fig7= go.Figure(data=[go.Bar(
-        x=movie_loc1.index,
-        y=movie_loc1.values,
-        marker_color=['#1f77b4', '#ff7f0e']
-    )])
-
-    fig7.update_layout(
-        title="Preferred Modes of Watching Movies",
-        xaxis_title="Mode",
-        yaxis_title="Count",
-        xaxis={'categoryorder': 'total descending'}
     )
 
     st.plotly_chart(fig7)
+    st.write('The bar chart shows the distribution of responses to a question about preferred modes of watching movies. Most respondents prefer watching movies, while a significant portion is undecided. A smaller group dislikes watching movies. This suggests that watching movies is a popular activity, with a large segment of the population either enjoying it or open to the idea.')
 
-    col3, col4 = st.columns((10,10))
+    col7, col8 = st.columns((10,10))
 
     ratings=df['Daily Watch Time'].value_counts()
     ratings_df = pd.DataFrame(ratings).reset_index()
     ratings_df.columns = ['Watch Hours', 'Count']
-    col3.dataframe(ratings_df, use_container_width=True)
+    col7.dataframe(ratings_df, use_container_width=True)
 
     # html_table = ratings_df.to_html(index=False, justify='center', border=0)
 
@@ -300,11 +349,16 @@ def dashboard():
 
     pair_counts = df.groupby(['Watch Frequency', 'Daily Watch Time']).size().reset_index(name='count')
     pair_counts.sort_values(by='count',ascending=False).head(3)
-    col4.dataframe(pair_counts, use_container_width=True)
+    col8.dataframe(pair_counts, use_container_width=True)
+    col7.write('The provided tables offer insights into video watching habits. The first table shows that most viewers spend 1-3 hours watching, with a significant portion watching less than an hour.')
+    col7.write('The second table reveals that many watch daily, with 1-3 hours being the most common duration. Occasional and weekly viewers are also present, often watching for shorter durations. This data suggests that video watching is a common activity, with a range of viewing habits from short, frequent sessions to longer, less frequent ones.')
 
 def model1():
 
-    st.title('Content based Movie Recommendation System')
+    st.markdown(
+    "<h1 style='text-align: center;'>Content based Movie Recommendation System</h1>", 
+    unsafe_allow_html=True
+)
 
     file_id2 = '1SoHSIAK4Mx9QNjwxaJQ0WNcwvOD6ioJT'
 
@@ -312,7 +366,14 @@ def model1():
 
     movies_df1 = pd.read_csv(url, encoding='latin1')
 
-    st.write('A Content-Based Recommendation System is a type of recommendation system that suggests items to users based on the features or characteristics of the items themselves, rather than user behavior or interactions (which is the case in collaborative filtering). The system analyzes the content or attributes of the items and recommends similar items that match the user past preferences.')
+    st.markdown(
+    """
+    <div style="text-align: center; font-size: 16px; line-height: 1.6;">
+        A Content-Based Recommendation System is a type of recommendation system that suggests items to users based on the features or characteristics of the items themselves, rather than user behavior or interactions (which is the case in collaborative filtering). The system analyzes the content or attributes of the items and recommends similar items that match the user's past preferences.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
     xyz = movies_df1['Genre'].unique()
     recomm1 = st.selectbox('Select your Preferred Genre', xyz)
@@ -328,8 +389,24 @@ def model1():
     
     movies_list=reco(recomm1)
     st.dataframe(movies_list, use_container_width=True)
-    st.write("We are currently in the process of collecting data for our academic research project, and your participation would be incredibly valuable to us. By completing this form, you will contribute to the success of our study, and we would greatly appreciate your time and input. Your responses will help us gain insights that are essential for our research. Thank you in advance for your effort and support! : You can access the Google Form by clicking on the link below:")
-    st.page_link('https://forms.gle/ZDd8UQP9qVykxMz99', label = 'https://forms.gle/ZDd8UQP9qVykxMz99')
+
+    st.markdown(
+        """
+        <div style="text-align: center;">
+            We are currently in the process of collecting data for our academic research project, and your participation would be incredibly valuable to us. By completing this form, you will contribute to the success of our study, and we would greatly appreciate your time and input. Your responses will help us gain insights that are essential for our research. Thank you in advance for your effort and support!
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div style="text-align: center;">
+            <a href="https://forms.gle/ZDd8UQP9qVykxMz99" target="_blank">Click here to access the Google Form</a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 def model2():
 
@@ -339,8 +416,21 @@ def model2():
 
     movies_df = pd.read_csv(url)
     
-    st.title('Context Based Movie Recommendation System')
-    st.write('Description-based recommendation uses the textual content of movie descriptions to find similarities between movies. It compares the description of a given movie with others using techniques like TF-IDF and cosine similarity to quantify how similar they are. The system then suggests the top 10 movies with the most similar descriptions to the input movie.')
+    st.markdown(
+        "<h1 style='text-align: center;'>Context Based Movie Recommendation System</h1>", 
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div style="text-align: center;">
+            Description-based recommendation uses the textual content of movie descriptions to find similarities between movies. 
+            It compares the description of a given movie with others using techniques like TF-IDF and cosine similarity to quantify 
+            how similar they are. The system then suggests the top 10 movies with the most similar descriptions to the input movie.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     abc = movies_df['title'].unique()
     recomm = st.selectbox('Select your Preferred Movie', abc)
@@ -381,9 +471,24 @@ def model2():
     df_movies.drop('index', axis = 1, inplace =True)
     st.dataframe(df_movies, use_container_width=True)
 
-    st.write("We are currently in the process of collecting data for our academic research project, and your participation would be incredibly valuable to us. By completing this form, you will contribute to the success of our study, and we would greatly appreciate your time and input. Your responses will help us gain insights that are essential for our research. Thank you in advance for your effort and support! : You can access the Google Form by clicking on the link below:")
-    st.page_link('https://forms.gle/ZDd8UQP9qVykxMz99', label = 'https://forms.gle/ZDd8UQP9qVykxMz99')
-    
+    st.markdown(
+        """
+        <div style="text-align: center;">
+            We are currently in the process of collecting data for our academic research project, and your participation would be incredibly valuable to us. By completing this form, you will contribute to the success of our study, and we would greatly appreciate your time and input. Your responses will help us gain insights that are essential for our research. Thank you in advance for your effort and support! 
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div style="text-align: center;">
+            <a href="https://forms.gle/ZDd8UQP9qVykxMz99" target="_blank">Click here to access the Google Form</a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 if ott=='Home':
     home()
 elif ott=='Dashboard':
