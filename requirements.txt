@@ -7,4 +7,3 @@ matplotlib
 openpyxl
 requests
 scikit-learn
-sklearn
