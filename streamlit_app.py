@@ -121,7 +121,7 @@ def dashboard():
     """,
     unsafe_allow_html=True
 )
-
+    st.markdown("<br>", unsafe_allow_html=True)
     df.rename(columns={'What is your age group?':'Age group',
                        'Which mode do you prefer to watch movies?': 'Preferred Mode',
                        'Which one of the following genres do you prefer to watch? (Select your top most favorite)': 'Favorite Genre',
@@ -137,6 +137,9 @@ def dashboard():
     
     df['Preferred Mode'] = df['Preferred Mode'].str.split(' - ').str[0]
     df['Platform Choice Factor'] = df['Platform Choice Factor'].str.replace('Other (Please specify)', 'Other')
+
+    st.write("")
+    st.write("")
 
     col1, col2 = st.columns((10,10))
 
@@ -157,7 +160,7 @@ def dashboard():
     )
     col1.plotly_chart(fig2)
     col1.write('OTT platforms are significantly more popular than traditional theaters, reflecting a shift in audience preferences toward digital movie consumption.')
-   
+    
     # df['Satisfaction Level'] = df['Satisfaction Level'].value_counts().sort_values(ascending=True)
     # st.write(df['Satisfaction Level'])
 
@@ -186,6 +189,9 @@ def dashboard():
 
     col2.plotly_chart(fig3)
     col2.write('Most users are satisfied with OTT platform recommendations, with satisfaction peaking at level 4, indicating effective content suggestions.')
+
+    col2.write("")
+    col2.write("")
 
     col3, col4 = st.columns((10,10))
 

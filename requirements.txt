@@ -6,3 +6,4 @@ pandas
 matplotlib
 openpyxl
 requests
+sklearn
