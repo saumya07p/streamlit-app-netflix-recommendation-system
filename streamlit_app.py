@@ -10,17 +10,24 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 def load_credentials():
+    try:
         return st.secrets["GOOGLE_SHEETS_CREDS"]
+    except KeyError as e:
+        st.error(f"Secret key error: {e}")
+        raise
 
 def connect_to_google_sheets(user_data):
+    try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-
         creds_dict = load_credentials()
         creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
         client = gspread.authorize(creds)
         sheet = client.open(user_data).sheet1
-        
         return sheet
+    except Exception as e:
+        st.error(f"Error connecting to Google Sheets: {e}")
+        raise
+
 
 def load_data(sheet):
         data = sheet.get_all_records()
