@@ -37,46 +37,7 @@ st.set_page_config(layout='wide')
 
 st.sidebar.image('https://i.ytimg.com/vi/gbbaX6WzBFg/maxresdefault.jpg')
 
-ott=st.sidebar.selectbox('OTT Platform',['Home','Dashboard','Model1','Model2'])
-
-def home():
-
-    st.markdown("<h1 style='text-align: center;'>User collected responses: Google Data preview</h1>", unsafe_allow_html=True)
-    SHEET_NAME = "user_data"
-    sheet = connect_to_google_sheets(SHEET_NAME)
-    df = load_data(sheet)
-    st.write("Data from Google Sheets:")
-
-    if 'Timestamp' in df.columns:
-        df = df.drop('Timestamp', axis=1)
-
-    df.rename(columns={'What is your age group?':'Age group',
-                        'Which mode do you prefer to watch movies?': 'Preferred Mode',
-                        'Which one of the following genres do you prefer to watch? (Select your top most favorite)': 'Favorite Genre',
-                        'Which of the following do you use most frequently to choose a streaming platform?': 'Platform Choice Factor',
-                        'On which devices do you primarily watch content?': 'Primary Device(to watch content)',
-                        'How often do you watch or consume content from streaming platforms?': 'Watch Frequency',                 
-                            'How satisfied are you with the recommendations you receive from streaming platforms?': 'Satisfaction Level',
-                            'Are you satisfied with the recommendations you receive from streaming platforms?': 'Recommendation Satisfaction',
-                            'What prevents you from using Netflix?': 'Netflix Barrier',
-                            'How long do you spend each day watching content on streaming services?': 'Daily Watch Time',
-                            'Does high subscription rate of one platform, forces you to switch to another platform?': 'Switching Due to Cost',
-                            'Kindly give your preference':'Duration preference (season/hr wise)'},inplace=True)
-        
-    df.reset_index(drop=True, inplace=True)
-        
-    st.dataframe(df)
-
-    columns_to_keep = st.multiselect("Select columns to keep:",options=df.columns)
-
-    if columns_to_keep:
-        df_filtered = df[columns_to_keep].copy()
-        df_filtered.reset_index(drop=True, inplace=True)
-
-        st.write("Selected column(s):")
-        st.write(df_filtered)
-    else:
-        st.write("No columns selected.")
+ott=st.sidebar.selectbox('OTT Platform',['Dashboard','Model1','Model2'])
 
 def dashboard():
 
@@ -537,9 +498,7 @@ def model2():
         unsafe_allow_html=True
     )
 
-if ott=='Home':
-    home()
-elif ott=='Dashboard':
+if ott=='Dashboard':
      dashboard()
 elif ott == 'Model1':
     model1()
