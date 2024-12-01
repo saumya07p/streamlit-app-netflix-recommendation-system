@@ -137,9 +137,13 @@ def dashboard():
     
     df['Preferred Mode'] = df['Preferred Mode'].str.split(' - ').str[0]
     df['Platform Choice Factor'] = df['Platform Choice Factor'].str.replace('Other (Please specify)', 'Other')
+    
+    st.markdown("<br>", unsafe_allow_html=True)
 
     col1, col2 = st.columns((10,10))
 
+    st.markdown("<br>", unsafe_allow_html=True)
+    
     movie_loc = df['Preferred Mode'].value_counts()
     fig2 = go.Figure(data=[go.Bar(
         x=movie_loc.index,
@@ -164,7 +168,7 @@ def dashboard():
     # aggregated_data = df.groupby('Satisfaction Level').size().reset_index(name='Count')
 
     # sorted_data = aggregated_data.sort_values(by='Count', ascending=False)
-
+    
     fig3 = px.bar(
     x=df['Satisfaction Level'].value_counts().index,
     y=df['Satisfaction Level'].value_counts().values,
@@ -328,7 +332,7 @@ def dashboard():
     )
     col6.plotly_chart(fig7)
     col6.write('The bar chart shows that the high subscription cost is the most significant factor affecting Netflix usage, followed by the lack of desired shows and movies.')
-    
+
     st.markdown("<br>", unsafe_allow_html=True)
 
     fig8= go.Figure(data=[go.Bar(
@@ -348,10 +352,21 @@ def dashboard():
     )
 
     st.plotly_chart(fig8)
-    st.write('Watching movies is a popular activity, with most respondents enjoying it, though some remain undecided or dislike it.')
+
+    st.markdown(
+        """
+        <div style="text-align: center;">
+            Watching movies is a popular activity, with most respondents enjoying it, though some remain undecided or dislike it.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
 
     col7, col8 = st.columns((10,10))
-
+    
     ratings=df['Daily Watch Time'].value_counts()
     ratings_df = pd.DataFrame(ratings).reset_index()
     ratings_df.columns = ['Watch Hours', 'Count']
