@@ -112,7 +112,15 @@ def dashboard():
         )
 
     st.plotly_chart(fig1)
-    st.write('The graph depicts a clear upward trend in Netflix subscriptions over the years, with a notable acceleration during the COVID-19 pandemic. This suggests that the pandemic significantly boosted Netflix''s popularity as people turned to streaming services for entertainment during lockdowns and social distancing measures.')
+
+    st.markdown(
+    """
+    <div style="text-align: center;">
+        Netflix subscriptions show a consistent upward trend, with a surge during the COVID-19 pandemic due to increased streaming demand.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
     df.rename(columns={'What is your age group?':'Age group',
                        'Which mode do you prefer to watch movies?': 'Preferred Mode',
@@ -148,49 +156,36 @@ def dashboard():
         } 
     )
     col1.plotly_chart(fig2)
-    col1.write('This chart clearly shows a strong preference for watching movies on Over-the-Top (OTT) platforms compared to traditional theatre halls. The significantly taller bar for OTT platforms indicates that a larger number of people choose to stream movies online. This shift towards digital movie consumption highlights the changing preferences of movie audiences and the growing popularity of online streaming services.')
+    col1.write('OTT platforms are significantly more popular than traditional theaters, reflecting a shift in audience preferences toward digital movie consumption.')
    
     # df['Satisfaction Level'] = df['Satisfaction Level'].value_counts().sort_values(ascending=True)
     # st.write(df['Satisfaction Level'])
 
-    fig3 = px.histogram(df,
-                   x='Satisfaction Level',
-                   color = 'Satisfaction Level',
-                   nbins=6,
-                   color_discrete_sequence=[
-                        "#8B0000",  # Dark red
-                        "#B22222",  # Firebrick
-                        "#DC143C",  # Crimson
-                        "#FF6347",  # Tomato
-                        "#FF9999"   # Light red
-        ]
-    )
-    aggregated_data = df.groupby('Satisfaction Level').size().reset_index(name='Count')
+    # aggregated_data = df.groupby('Satisfaction Level').size().reset_index(name='Count')
 
-    sorted_data = aggregated_data.sort_values(by='Count', ascending=False)
+    # sorted_data = aggregated_data.sort_values(by='Count', ascending=False)
 
     fig3 = px.bar(
-        sorted_data,
-        x='Satisfaction Level',
-        y='Count',
-        title='OTT Recommendation system satisfaction rate',
-        labels={'Satisfaction Level': 'Satisfaction Level', 'Count': 'Count'},
-        color='Satisfaction Level',
-        color_continuous_scale='Reds'
+    x=df['Satisfaction Level'].value_counts().index,
+    y=df['Satisfaction Level'].value_counts().values,
+    labels={'x': 'Satisfaction Level', 'y': 'Count'},
+    color=df['Satisfaction Level'].value_counts().values,
+    color_continuous_scale='Reds'
     )
 
     fig3.update_layout(
-        xaxis=dict(categoryorder='total descending'),
+        xaxis={'categoryorder': 'total descending'},
         title={
+            'text': 'OTT Recommendation System Satisfaction Rate',
             'y': 0.9,
             'x': 0.5,
             'xanchor': 'center',
             'yanchor': 'top'
         }
-    )
+        )
 
     col2.plotly_chart(fig3)
-    col2.write('This chart illustrates how satisfied users are with the recommendations provided by Over-the-Top (OTT) platforms. The graph shows a clear preference for the recommendations, with a peak in satisfaction at level 4. While a smaller number of users express dissatisfaction at level 1 and 2, the majority of users are either satisfied or very satisfied with the recommendations, indicating that OTT platforms are generally doing a good job in suggesting content to their viewers.')
+    col2.write('Most users are satisfied with OTT platform recommendations, with satisfaction peaking at level 4, indicating effective content suggestions.')
 
     col3, col4 = st.columns((10,10))
 
@@ -230,7 +225,7 @@ def dashboard():
     )
     
     col3.plotly_chart(fig4)
-    col3.write('This bubble chart shows Netflix as the most popular OTT platform, followed by Amazon Prime Video and Hotstar. Platforms like Hulu, Disney+, and HBO Max have a smaller user base. This suggests Netflix dominates the OTT market, while other platforms cater to specific niches.')
+    col3.write('Netflix leads the OTT market, followed by Amazon Prime and Hotstar, while other platforms like Hulu and Disney+ have smaller audiences.')
 
     color_map = {
     'Comedy': '#660000',        # Very dark red
@@ -268,7 +263,7 @@ def dashboard():
         )
 
     col4.plotly_chart(fig5)
-    col4.write('This chart shows the popularity of different movie genres among users. Comedy is the most preferred genre, followed by Romance and Thriller. Science Fiction and Horror are also quite popular. Documentary and Drama genres are the least preferred among the users. This graph suggests that users have a diverse range of preferences when it comes to movie genres, with a strong preference for action-packed and light-hearted content.')
+    col4.write('Comedy is the most popular movie genre, while Documentary and Drama are the least preferred, showing diverse user preferences.')
 
     col5, col6 = st.columns((10,10))
 
@@ -293,24 +288,47 @@ def dashboard():
         title={
             'text': 'Genre Preferences by Gender',
             'y': 0.9,
-            'x': 0.5,
+            'x': 0.45,
             'xanchor': 'center',
             'yanchor': 'top'
         },
         xaxis={'categoryorder': 'total descending'}
     )
     col5.plotly_chart(fig6)
-    col5.write('The chart shows genre preferences vary by gender. Comedy is the most popular genre overall. Women prefer Romance more than men, while men favor Action and Sci-Fi. The "Prefer not to say" category aligns more with male preferences. This suggests gender influences genre choices, with comedy being a universal favorite.')
+    col5.write('Genre preferences differ by gender, with women favoring Romance, men preferring Action and Sci-Fi, and Comedy being universally liked.')
 
     movie_loc1 = df['Switching Due to Cost'].value_counts()
+    # df['Netflix Barrier'] = df['Netflix Barrier'].replace()    
 
-    fig7= go.Figure(data=[go.Bar(
+    fig7 = px.bar(
+            df,
+            x=df['Netflix Barrier'].value_counts().index,
+            y=df['Netflix Barrier'].value_counts().values,
+            labels={'x': 'Netflix Barrier', 'y': 'Count'},
+            color = df['Netflix Barrier'].value_counts().values,
+            color_continuous_scale='Reds'
+            )
+    
+    fig7.update_layout(
+        title = {
+            'text': 'Factors affecting usage of Netflix',
+            #' y': 0.9,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        xaxis_tickangle=90
+    )
+    col6.plotly_chart(fig7)
+    col6.write('The bar chart shows that the high subscription cost is the most significant factor affecting Netflix usage, followed by the lack of desired shows and movies.')
+
+    fig8= go.Figure(data=[go.Bar(
         x=movie_loc1.index,
         y=movie_loc1.values,
         marker_color=['#990000', '#e60000', '#ff6666']
     )])
 
-    fig7.update_layout(
+    fig8.update_layout(
         title={
         'text':"Preferred Modes of Watching Movies",
         'y': 0.9,
@@ -320,8 +338,8 @@ def dashboard():
         xaxis={'categoryorder': 'total descending'}
     )
 
-    st.plotly_chart(fig7)
-    st.write('The bar chart shows the distribution of responses to a question about preferred modes of watching movies. Most respondents prefer watching movies, while a significant portion is undecided. A smaller group dislikes watching movies. This suggests that watching movies is a popular activity, with a large segment of the population either enjoying it or open to the idea.')
+    st.plotly_chart(fig8)
+    st.write('Watching movies is a popular activity, with most respondents enjoying it, though some remain undecided or dislike it.')
 
     col7, col8 = st.columns((10,10))
 
@@ -350,8 +368,7 @@ def dashboard():
     pair_counts = df.groupby(['Watch Frequency', 'Daily Watch Time']).size().reset_index(name='count')
     pair_counts.sort_values(by='count',ascending=False).head(3)
     col8.dataframe(pair_counts, use_container_width=True)
-    col7.write('The provided tables offer insights into video watching habits. The first table shows that most viewers spend 1-3 hours watching, with a significant portion watching less than an hour.')
-    col7.write('The second table reveals that many watch daily, with 1-3 hours being the most common duration. Occasional and weekly viewers are also present, often watching for shorter durations. This data suggests that video watching is a common activity, with a range of viewing habits from short, frequent sessions to longer, less frequent ones.')
+    col7.write('Most viewers watch videos daily for 1-3 hours, though habits range from short frequent sessions to occasional longer ones.')
 
 def model1():
 
