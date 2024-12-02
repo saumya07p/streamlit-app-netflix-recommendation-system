@@ -266,7 +266,7 @@ def dashboard():
     st.plotly_chart(fig6)
     st.write('Comedy is the most popular movie genre, while Documentary and Drama are the least preferred, showing diverse user preferences.')
 
-    abc12=st.radio(label='Radio' ,options=['Age','Gender'])
+    abc12=st.radio(label='Radio', options=['Age','Gender'])
 
     if abc12 == "Age":
         fig7 = px.histogram(
@@ -323,31 +323,8 @@ def dashboard():
         xaxis={'categoryorder': 'total descending'}
     )
     st.plotly_chart(fig7)
-    st.write('Genre preferences differ by gender, with women favoring Romance, men preferring Action and Sci-Fi, and Comedy being universally liked.')
-
-
     
-    movie_loc1 = df['Switching Due to Cost'].value_counts()  
-
     st.markdown("<br>", unsafe_allow_html=True)
-
-    fig8= go.Figure(data=[go.Bar(
-        x=movie_loc1.index,
-        y=movie_loc1.values,
-        marker_color=['#990000', '#e60000', '#ff6666']
-    )])
-
-    fig8.update_layout(
-        title={
-        'text':"Preferred Modes of Watching Movies",
-        'y': 0.9,
-        'x': 0.45,
-        'xanchor': 'center',
-        'yanchor': 'top'},
-        xaxis={'categoryorder': 'total descending'}
-    )
-
-    st.plotly_chart(fig8)
 
     st.markdown(
         """
@@ -361,12 +338,12 @@ def dashboard():
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
 
-    col7, col8 = st.columns((10,10))
+    col5, col6 = st.columns((10,10))
     
     ratings=df['Daily Watch Time'].value_counts()
     ratings_df = pd.DataFrame(ratings).reset_index()
     ratings_df.columns = ['Watch Hours', 'Count']
-    col7.dataframe(ratings_df, use_container_width=True)
+    col5.dataframe(ratings_df, use_container_width=True)
 
     # html_table = ratings_df.to_html(index=False, justify='center', border=0)
 
@@ -387,8 +364,8 @@ def dashboard():
 
     pair_counts = df.groupby(['Watch Frequency', 'Daily Watch Time']).size().reset_index(name='count')
     pair_counts.sort_values(by='count',ascending=False).head(3)
-    col8.dataframe(pair_counts, use_container_width=True)
-    col7.write('Most viewers watch videos daily for 1-3 hours, though habits range from short frequent sessions to occasional longer ones.')
+    col6.dataframe(pair_counts, use_container_width=True)
+    col5.write('Most viewers watch videos daily for 1-3 hours, though habits range from short frequent sessions to occasional longer ones.')
 
 def model1():
 
