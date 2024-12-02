@@ -266,7 +266,7 @@ def dashboard():
     st.plotly_chart(fig6)
     st.write('Comedy is the most popular movie genre, while Documentary and Drama are the least preferred, showing diverse user preferences.')
 
-    abc12=st.radio(label='Radio', options=['Age','Gender'])
+    abc12 = st.radio(label='Radio', options=['Age','Gender'])
 
     if abc12 == "Age":
         fig7 = px.histogram(
@@ -281,7 +281,8 @@ def dashboard():
             'Male': '#990000',      # Dark red for Male
             'Female': '#FF6347'     # Light red for Female
         }
-    )
+        )
+        
         fig7.update_layout(
         xaxis_tickangle=90,
         title={
@@ -294,10 +295,9 @@ def dashboard():
         xaxis={'categoryorder': 'total descending'}
         )   
         st.plotly_chart(fig7)
-        st.write('Genre preferences differ by gender, with women favoring Romance, men preferring Action and Sci-Fi, and Comedy being universally liked.')
-        
+                
     elif abc12 == "Gender":
-        fig7 = px.histogram(
+        fig8 = px.histogram(
         df,
         x="Favorite Genre",
         color="Gender",
@@ -311,19 +311,20 @@ def dashboard():
         }
     )
 
-    fig7.update_layout(
-        xaxis_tickangle=90,
-        title={
-            'text': 'Genre Preferences by Gender',
-            'y': 0.9,
-            'x': 0.45,
-            'xanchor': 'center',
-            'yanchor': 'top'
-        },
-        xaxis={'categoryorder': 'total descending'}
-    )
-    st.plotly_chart(fig7)
-    
+        fig8.update_layout(
+            xaxis_tickangle=90,
+            title={
+                'text': 'Genre Preferences by Gender',
+                'y': 0.9,
+                'x': 0.45,
+                'xanchor': 'center',
+                'yanchor': 'top'
+            },
+            xaxis={'categoryorder': 'total descending'}
+        )
+        st.plotly_chart(fig8)
+        st.write('Genre preferences differ by gender, with women favoring Romance, men preferring Action and Sci-Fi, and Comedy being universally liked.')
+
     st.markdown("<br>", unsafe_allow_html=True)
 
     st.markdown(
