@@ -37,6 +37,19 @@ st.set_page_config(layout='wide')
 
 st.sidebar.image('https://i.ytimg.com/vi/gbbaX6WzBFg/maxresdefault.jpg')
 
+st.sidebar.markdown(
+    """
+    <div style="position: fixed; bottom: 0; width: 100%; text-align: left;">
+        <p><strong>Developed By:</strong></p>
+        <p>Shloka Ramesh Daga</p>
+        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/shlokadaga/" target="_blank">https://www.linkedin.com/in/shlokadaga/</a></p>
+        <p>Saumya Chandrakant Prasad</p>
+        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/saumyap07/" target="_blank">https://www.linkedin.com/in/saumyap07/</a></p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 ott=st.sidebar.selectbox('OTT Platform',['Dashboard','Model1','Model2'])
 
 def dashboard():
