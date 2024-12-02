@@ -143,13 +143,6 @@ def dashboard():
     col1.plotly_chart(fig2)
     col1.write('OTT platforms are significantly more popular than traditional theaters, reflecting a shift in audience preferences toward digital movie consumption.')
     
-    # df['Satisfaction Level'] = df['Satisfaction Level'].value_counts().sort_values(ascending=True)
-    # st.write(df['Satisfaction Level'])
-
-    # aggregated_data = df.groupby('Satisfaction Level').size().reset_index(name='Count')
-
-    # sorted_data = aggregated_data.sort_values(by='Count', ascending=False)
-    
     fig3 = px.bar(
     x=df['Satisfaction Level'].value_counts().index,
     y=df['Satisfaction Level'].value_counts().values,
@@ -199,7 +192,7 @@ def dashboard():
                         "#ff9999",  # Light red
                         "#ff4d4d",  # Medium red
                         "#e60000",  # Dark red
-                        "#990000"   # Deepest red
+                        "#990000"   # Very dark red
                     ],
                     size_max=70)
 
