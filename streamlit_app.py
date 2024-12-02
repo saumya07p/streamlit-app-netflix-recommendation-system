@@ -28,7 +28,6 @@ def connect_to_google_sheets(user_data):
         st.error(f"Error connecting to Google Sheets: {e}")
         raise
 
-
 def load_data(sheet):
         data = sheet.get_all_records()
         return pd.DataFrame(data)
@@ -100,7 +99,10 @@ def dashboard():
     """,
     unsafe_allow_html=True
 )
+    
     st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+
     df.rename(columns={'What is your age group?':'Age group',
                        'Which mode do you prefer to watch movies?': 'Preferred Mode',
                        'Which one of the following genres do you prefer to watch? (Select your top most favorite)': 'Favorite Genre',
@@ -116,12 +118,8 @@ def dashboard():
     
     df['Preferred Mode'] = df['Preferred Mode'].str.split(' - ').str[0]
     df['Platform Choice Factor'] = df['Platform Choice Factor'].str.replace('Other (Please specify)', 'Other')
-    
-    st.markdown("<br>", unsafe_allow_html=True)
 
     col1, col2 = st.columns((10,10))
-
-    st.markdown("<br>", unsafe_allow_html=True)
     
     movie_loc = df['Preferred Mode'].value_counts()
     fig2 = go.Figure(data=[go.Bar(
@@ -131,7 +129,7 @@ def dashboard():
     )])
 
     fig2.update_layout(
-        xaxis_title="Mode",
+        xaxis_title="Modes",
         yaxis_title="Count",
         title = {
         'text':'Movies Watching Preferences',
@@ -139,12 +137,19 @@ def dashboard():
         } 
     )
     col1.plotly_chart(fig2)
-    col1.write('OTT platforms are significantly more popular than traditional theaters, reflecting a shift in audience preferences toward digital movie consumption.')
+    col1.markdown(
+    """
+    <div style="text-align: center;">
+        OTT platforms are significantly more popular than traditional theaters, reflecting a shift in audience preferences toward digital movie consumption.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
     
     fig3 = px.bar(
     x=df['Satisfaction Level'].value_counts().index,
     y=df['Satisfaction Level'].value_counts().values,
-    labels={'x': 'Satisfaction Level', 'y': 'Count'},
+    labels={'x': 'Satisfaction Levels', 'y': 'Count'},
     color=df['Satisfaction Level'].value_counts().values,
     color_continuous_scale='Reds'
     )
@@ -161,7 +166,14 @@ def dashboard():
         )
 
     col2.plotly_chart(fig3)
-    col2.write('Most users are satisfied with OTT platform recommendations, with satisfaction peaking at level 4, indicating effective content suggestions.')
+    col2.markdown(
+    """
+    <div style="text-align: center;">
+        Most users are satisfied with OTT platform recommendations, with satisfaction peaking at level 4, indicating effective content suggestions.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
     col3, col4 = st.columns((10,10))
 
@@ -171,7 +183,7 @@ def dashboard():
     platform_df = platform_df.sample(frac=1).reset_index(drop=True)
     
     st.markdown("<br>", unsafe_allow_html=True)
-    
+
     fig4 = px.scatter(platform_df,
                     x="Platform", 
                     y="Count",
@@ -179,7 +191,7 @@ def dashboard():
                     color="Count",
                     hover_name="Platform",
                     title="Platform Preference",
-                    labels={"Platform": "Platform", "Count": "Count",
+                    labels={"Platform": "Platforms", "Count": "Count",
                     },
                     color_continuous_scale=[
                         "#ff9999",  # Light red
@@ -201,20 +213,26 @@ def dashboard():
     )
     
     col3.plotly_chart(fig4)
-    col3.write('Netflix leads the OTT market, followed by Amazon Prime and Hotstar, while other platforms like Hulu and Disney+ have smaller audiences.')
-
-    color_map = {
-        'Comedy': '#660000',        # Very dark red
-        'Romance': '#800000',       # Dark red
-        'Thriller': '#990000',      # Red
-        'Science Fiction': '#b30000', # Medium dark red
-        'Horror': '#cc3333',        # Bright red
-        'Action': '#e60000',        # Strong red
-        'Documentary': '#ff6666',   # Light red
-        'Drama': '#ff9999'          # Very light red
-        }
-
+    col3.markdown(
+    """
+    <div style="text-align: center;">
+        Netflix leads the OTT market, followed by Amazon Prime and Hotstar, while other platforms like Hulu and Disney+ have smaller audiences.
+    </div>
+    """,
+    unsafe_allow_html=True
+    )   
     st.markdown("<br>", unsafe_allow_html=True)
+
+    # color_map = {
+    #     'Comedy': '#660000',        # Very dark red
+    #     'Romance': '#800000',       # Dark red
+    #     'Thriller': '#990000',      # Red
+    #     'Science Fiction': '#b30000', # Medium dark red
+    #     'Horror': '#cc3333',        # Bright red
+    #     'Action': '#e60000',        # Strong red
+    #     'Documentary': '#ff6666',   # Light red
+    #     'Drama': '#ff9999'          # Very light red
+    #     }
 
     df['Netflix Barrier'] = df['Netflix Barrier'].replace('N/A', 'No Issues')
 
@@ -222,7 +240,7 @@ def dashboard():
             df,
             x=df['Netflix Barrier'].value_counts().index,
             y=df['Netflix Barrier'].value_counts().values,
-            labels={'x': 'Netflix Barrier', 'y': 'Count'},
+            labels={'x': 'Factors', 'y': 'Count'},
             color = df['Netflix Barrier'].value_counts().values,
             color_continuous_scale='Reds'
             )
@@ -237,13 +255,20 @@ def dashboard():
         xaxis_tickangle=90
     )
     col4.plotly_chart(fig5)
-    col4.write('The bar chart shows that the high subscription cost is the most significant factor affecting Netflix usage, followed by the lack of desired shows and movies.')
+    col4.markdown(
+    """
+    <div style="text-align: center;">
+        The bar chart shows that the high subscription cost is the most significant factor affecting Netflix usage, followed by the lack of desired shows and movies.
+    </div>
+    """,
+    unsafe_allow_html=True
+    )
 
     fig6 = px.bar(
         df,
         x=df['Favorite Genre'].value_counts().index,
         y=df['Favorite Genre'].value_counts().values,
-        labels={'x': 'Favorite Genre', 'y': 'Count'},
+        labels={'x': 'Genres', 'y': 'Count'},
         color = df['Favorite Genre'].value_counts().values,
         color_continuous_scale='Reds'
     )
@@ -263,9 +288,29 @@ def dashboard():
         )
 
     st.plotly_chart(fig6)
-    st.write('Comedy is the most popular movie genre, while Documentary and Drama are the least preferred, showing diverse user preferences.')
+    st.markdown(
+    """
+    <div style="text-align: center;">
+        Comedy is the most popular movie genre, while Documentary and Drama are the least preferred, showing diverse user preferences.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    abc12 = st.radio(label='Radio', options=['Age','Gender'])
+    st.markdown(
+            """
+            <style>
+            .stRadio {
+                text-align: right;
+            }
+            </style>
+            """, 
+            unsafe_allow_html=True
+        )
+
+    abc12 = st.radio(label='Radio', options=['Age', 'Gender'])
 
     if abc12 == "Age":
         fig7 = px.histogram(
@@ -274,7 +319,7 @@ def dashboard():
         color="Age group",
         category_orders={"Favorite Genre": df['Favorite Genre'].unique()},
         title="Genre Preferences by Age",
-        labels={"Favorite Genre": "Genre Preference", "Count": "Count of Users"},
+        labels={"Favorite Genre": "Genres", "Count": "Count of Users"},
         barmode="stack",
         color_discrete_map={
             '18-24': '#990000',     
@@ -297,7 +342,15 @@ def dashboard():
         xaxis={'categoryorder': 'total descending'}
         )   
         st.plotly_chart(fig7)
-                
+        st.markdown(
+         """
+            <div style="text-align: center;">
+                Comedy is the clear favorite across all age groups, with romance and thriller following closely behind.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
     elif abc12 == "Gender":
         fig8 = px.histogram(
         df,
@@ -327,17 +380,6 @@ def dashboard():
         )
         st.plotly_chart(fig8)
         st.write('Comedy is the clear favorite across all age groups, with romance and thriller following closely behind.')
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    st.markdown(
-        """
-        <div style="text-align: center;">
-            Watching movies is a popular activity, with most respondents enjoying it, though some remain undecided or dislike it.
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
