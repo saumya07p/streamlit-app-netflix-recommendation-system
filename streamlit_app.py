@@ -339,7 +339,7 @@ def dashboard():
             xaxis={'categoryorder': 'total descending'}
         )
         st.plotly_chart(fig8)
-        st.write('Genre preferences differ by gender, with women favoring Romance, men preferring Action and Sci-Fi, and Comedy being universally liked.')
+        st.write('Comedy is the clear favorite across all age groups, with romance and thriller following closely behind.')
 
     st.markdown("<br>", unsafe_allow_html=True)
 
