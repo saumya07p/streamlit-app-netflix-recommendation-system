@@ -382,7 +382,7 @@ def dashboard():
         st.markdown(
          """
             <div style="text-align: center;">
-                Comedy is the clear favorite across all age groups, with romance and thriller following closely behind.
+                Genre preferences differ by gender, with women favoring Romance, men preferring Action and Sci-Fi, and Comedy being universally liked.
             </div>
             """,
             unsafe_allow_html=True
@@ -401,7 +401,7 @@ def dashboard():
     pair_counts = df.groupby(['Watch Frequency', 'Daily Watch Time']).size().reset_index(name='count')
     pair_counts.sort_values(by='count',ascending=False).head(3)
     col6.dataframe(pair_counts, use_container_width=True)
-    col5.write('Most viewers watch videos daily for 1-3 hours, though habits range from short frequent sessions to occasional longer ones.')
+    col5.write('Watching movies is a popular activity, with most respondents enjoying it, though some remain undecided or dislike it. Most viewers watch videos daily for 1-3 hours, though habits range from short frequent sessions to occasional longer ones.')
 
 def model1():
 
