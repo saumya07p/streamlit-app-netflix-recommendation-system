@@ -163,9 +163,6 @@ def dashboard():
     col2.plotly_chart(fig3)
     col2.write('Most users are satisfied with OTT platform recommendations, with satisfaction peaking at level 4, indicating effective content suggestions.')
 
-    col2.write("")
-    col2.write("")
-
     col3, col4 = st.columns((10,10))
 
     platform_preference = df['Platform Choice Factor'].value_counts()
