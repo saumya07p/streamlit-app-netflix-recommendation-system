@@ -209,15 +209,15 @@ def dashboard():
     col3.write('Netflix leads the OTT market, followed by Amazon Prime and Hotstar, while other platforms like Hulu and Disney+ have smaller audiences.')
 
     color_map = {
-    'Comedy': '#660000',        # Very dark red
-    'Romance': '#800000',       # Dark red
-    'Thriller': '#990000',      # Red
-    'Science Fiction': '#b30000', # Medium dark red
-    'Horror': '#cc3333',        # Bright red
-    'Action': '#e60000',        # Strong red
-    'Documentary': '#ff6666',   # Light red
-    'Drama': '#ff9999'          # Very light red
-    }
+        'Comedy': '#660000',        # Very dark red
+        'Romance': '#800000',       # Dark red
+        'Thriller': '#990000',      # Red
+        'Science Fiction': '#b30000', # Medium dark red
+        'Horror': '#cc3333',        # Bright red
+        'Action': '#e60000',        # Strong red
+        'Documentary': '#ff6666',   # Light red
+        'Drama': '#ff9999'          # Very light red
+        }
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -252,8 +252,6 @@ def dashboard():
     )
 
     fig6.update_layout(
-        xaxis_title='Genre',
-        yaxis_title='Count',
         xaxis_tickangle=90,
         title={
             'text': 'User preferred Genres',
