@@ -278,8 +278,11 @@ def dashboard():
         labels={"Favorite Genre": "Genre Preference", "Count": "Count of Users"},
         barmode="stack",
         color_discrete_map={
-            'Male': '#990000',      # Dark red for Male
-            'Female': '#FF6347'     # Light red for Female
+            '18-24': '#990000',     
+            '25-34': '#FF6347',
+            '55+': '#990000',     
+            'Under 18': '#FF6347',
+            '35-44': '#990000' 
         }
         )
         
@@ -306,10 +309,10 @@ def dashboard():
         labels={"Favorite Genre": "Genre Preference", "Count": "Count of Users"},
         barmode="stack",
         color_discrete_map={
-            'Male': '#990000',      # Dark red for Male
-            'Female': '#FF6347'     # Light red for Female
-        }
-    )
+            'Male': '#990000',
+            'Female': '#FF6347'
+            }
+            )
 
         fig8.update_layout(
             xaxis_tickangle=90,
@@ -345,23 +348,6 @@ def dashboard():
     ratings_df = pd.DataFrame(ratings).reset_index()
     ratings_df.columns = ['Watch Hours', 'Count']
     col5.dataframe(ratings_df, use_container_width=True)
-
-    # html_table = ratings_df.to_html(index=False, justify='center', border=0)
-
-    # col5, col6 = st.columns([2,2])
-
-    # with col5:
-    #     st.markdown("<h3 style='text-align: center;'>Daily Watch Time Statistics</h3>", unsafe_allow_html=True)
-
-    #     styled_df = ratings_df.style.set_table_styles(
-    #         [
-    #         {"selector": "th", "props": [("text-align", "center"), ("font-size", "16px"), ("font-weight", "bold")]},  # Center header and style
-    #         {"selector": "td", "props": [("text-align", "center"), ("padding", "8px")]}  # Center table data and add padding
-    #         ]
-    #     )
-
-    # with col5:
-    #     st.table(styled_df)
 
     pair_counts = df.groupby(['Watch Frequency', 'Daily Watch Time']).size().reset_index(name='count')
     pair_counts.sort_values(by='count',ascending=False).head(3)
