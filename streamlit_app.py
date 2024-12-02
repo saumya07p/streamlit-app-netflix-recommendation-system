@@ -41,8 +41,8 @@ st.sidebar.markdown(
     """
     <div style="position: fixed; bottom: 0; width: 100%; text-align: left;">
         <p><strong>Developed By:</strong></p>
-        <p>Shloka Ramesh Daga | <a href="https://www.linkedin.com/in/shlokadaga/" target="_blank">LinkedIn</a> </p>
-        <p>Saumya Chandrakant Prasad | <a href="https://www.linkedin.com/in/saumyap07/" target="_blank">LinkedIn</a></p>
+        <p>Shloka Ramesh Daga | <a href="https://www.linkedin.com/in/shlokadaga/" target="_blank"> LinkedIn </a> </p>
+        <p>Saumya Chandrakant Prasad | <a href="https://www.linkedin.com/in/saumyap07/" target="_blank"> LinkedIn </a></p>
     </div>
     """,
     unsafe_allow_html=True
