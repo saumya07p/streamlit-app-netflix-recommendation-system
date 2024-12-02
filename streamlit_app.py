@@ -166,10 +166,8 @@ def dashboard():
     col3, col4 = st.columns((10,10))
 
     platform_preference = df['Platform Choice Factor'].value_counts()
-
     platform_df = platform_preference.reset_index()
     platform_df.columns = ['Platform', 'Count']
-
     platform_df = platform_df.sample(frac=1).reset_index(drop=True)
     
     st.markdown("<br>", unsafe_allow_html=True)
@@ -218,6 +216,8 @@ def dashboard():
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    df['Netflix Barrier'] = df['Netflix Barrier'].replace('N/A', 'No Issues')
+
     fig5 = px.bar(
             df,
             x=df['Netflix Barrier'].value_counts().index,
@@ -230,7 +230,6 @@ def dashboard():
     fig5.update_layout(
         title = {
             'text': 'Factors affecting usage of Netflix',
-            #' y': 0.9,
             'x': 0.5,
             'xanchor': 'center',
             'yanchor': 'top'
@@ -242,10 +241,11 @@ def dashboard():
 
     fig6 = px.bar(
         df,
-        x='Favorite Genre',
-        color='Favorite Genre',
-        title='User preferred Genres',
-        color_discrete_map=color_map
+        x=df['Favorite Genre'].value_counts().index,
+        y=df['Favorite Genre'].value_counts().values,
+        labels={'x': 'Favorite Genre', 'y': 'Count'},
+        color = df['Favorite Genre'].value_counts().values,
+        color_continuous_scale='Reds'
     )
 
     fig6.update_layout(
@@ -309,7 +309,8 @@ def dashboard():
         barmode="stack",
         color_discrete_map={
             'Male': '#990000',
-            'Female': '#FF6347'
+            'Female': '#FF6347',
+            'Prefer not to say': '#FF6347' 
             }
             )
 
