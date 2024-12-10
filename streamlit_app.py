@@ -111,7 +111,7 @@ def dashboard():
     </div>
     """,
     unsafe_allow_html=True
-)
+    )
     
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
@@ -138,6 +138,7 @@ def dashboard():
     col1, col2 = st.columns((10,10))
     
     movie_loc = df['Preferred Mode'].value_counts()
+    
     fig2 = go.Figure(data=[go.Bar(
         x=movie_loc.index,
         y=movie_loc.values,
@@ -152,6 +153,7 @@ def dashboard():
         'x': 0.3  
         } 
     )
+
     col1.plotly_chart(fig2)
     col1.markdown(
     """
