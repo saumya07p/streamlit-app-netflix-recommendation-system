@@ -1,8 +1,8 @@
-Netflix Recommendation Model Dashboard could be accessed from here:
+Netflix Recommendation Model Dashboard can be accessed from here:
 
 https://netflix-movie-recommendation-system.streamlit.app/
 
-### How to run it on your own machine
+### How to run it on your machine
 
 1. Install the requirements
 
