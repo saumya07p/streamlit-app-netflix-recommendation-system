@@ -15,3 +15,5 @@ Netflix Recommendation Model Dashboard could be accessed from here:
    ```
    $ streamlit run streamlit_app.py
    ```
+
+https://www.canva.com/design/DAGY2uSjNMc/EUR_Pk3aT8ZknkB50_z7KQ/view?utm_content=DAGY2uSjNMc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hcedcc952ae
